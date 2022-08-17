@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "attraction:block/charged_lodestone_lit"
+  }
+}

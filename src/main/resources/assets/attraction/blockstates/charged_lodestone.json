@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "powered=false,lit=false": {
+      "model": "attraction:block/charged_lodestone"
+    },
+    "powered=true,lit=false": {
+      "model": "attraction:block/charged_lodestone_inverted"
+    },
+    "powered=false,lit=true": {
+      "model": "attraction:block/charged_lodestone_lit"
+    },
+    "powered=true,lit=true": {
+      "model": "attraction:block/charged_lodestone_lit"
+    }
+  }
+}
