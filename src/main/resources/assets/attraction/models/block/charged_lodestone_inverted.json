@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/cube_column",
   "textures": {
-    "end": "minecraft:block/lodestone_top",
-    "side": "minecraft:block/lodestone_top"
+    "end": "attraction:block/charged_lodestone_top",
+    "side": "attraction:block/charged_lodestone_side"
   }
 }
