@@ -1,0 +1,10 @@
+{
+  "charged_lodestone_invert": {
+    "subtitle": "subtitles.attraction.charged_lodestone_invert",
+    "sounds": [
+      {
+        "name": "attraction:charged_lodestone_invert"
+      }
+    ]
+  }
+}

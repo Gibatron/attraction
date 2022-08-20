@@ -1,0 +1,28 @@
+{
+  "parent": "attraction:witness_attraction",
+  "display": {
+    "icon": {
+      "item": "minecraft:elytra"
+    },
+    "title": {
+      "translate": "advancements.attraction.magnet_boost_elytra.title"
+    },
+    "description": {
+      "translate": "advancements.attraction.magnet_boost_elytra.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "boosted": {
+      "trigger": "attraction:magnet_boost_elytra"
+    }
+  },
+  "requirements": [
+    [
+      "boosted"
+    ]
+  ]
+}

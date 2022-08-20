@@ -1,0 +1,28 @@
+{
+  "parent": "minecraft:nether/use_lodestone",
+  "display": {
+    "icon": {
+      "item": "minecraft:netherite_block"
+    },
+    "title": {
+      "translate": "advancements.attraction.witness_attraction.title"
+    },
+    "description": {
+      "translate": "advancements.attraction.witness_attraction.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "item_attracted": {
+      "trigger": "attraction:item_attracted"
+    }
+  },
+  "requirements": [
+    [
+      "item_attracted"
+    ]
+  ]
+}

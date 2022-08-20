@@ -1,0 +1,40 @@
+{
+  "parent": "attraction:witness_attraction",
+  "display": {
+    "icon": {
+      "item": "minecraft:iron_block"
+    },
+    "title": {
+      "translate": "advancements.attraction.witness_opposites_attract.title"
+    },
+    "description": {
+      "translate": "advancements.attraction.witness_opposites_attract.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "item_attracted": {
+      "trigger": "attraction:item_attracted",
+      "conditions": {
+        "item": {
+          "items": [
+            "minecraft:iron_block"
+          ]
+        },
+        "block": {
+          "blocks": [
+            "minecraft:netherite_block"
+          ]
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "item_attracted"
+    ]
+  ]
+}

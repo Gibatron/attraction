@@ -1,0 +1,28 @@
+{
+  "parent": "attraction:witness_attraction",
+  "display": {
+    "icon": {
+      "item": "minecraft:minecart"
+    },
+    "title": {
+      "translate": "advancements.attraction.ride_attracted_minecart.title"
+    },
+    "description": {
+      "translate": "advancements.attraction.ride_attracted_minecart.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "ride_attracted": {
+      "trigger": "attraction:ride_attracted"
+    }
+  },
+  "requirements": [
+    [
+      "ride_attracted"
+    ]
+  ]
+}

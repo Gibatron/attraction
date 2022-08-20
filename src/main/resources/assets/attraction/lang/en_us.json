@@ -1,3 +1,16 @@
 {
-  "block.attraction.charged_lodestone": "Charged Lodestone"
+  "block.attraction.charged_lodestone": "Charged Lodestone",
+  "subtitles.attraction.charged_lodestone_invert": "Charged Lodestone clicks",
+  "advancements.attraction.witness_attraction.title": "How Attractive",
+  "advancements.attraction.witness_attraction.description": "Witness a Magnetic Block attract a Magnetic Item",
+  "advancements.attraction.ride_attracted_minecart.title": "Being Pulled Along",
+  "advancements.attraction.ride_attracted_minecart.description": "Ride in a Minecart being attracted by a Magnetic Block",
+  "advancements.attraction.strike_lodestone.title": "Supercharged",
+  "advancements.attraction.strike_lodestone.description": "Strike a Lodestone with lightning",
+  "advancements.attraction.strike_multiple_lodestones.title": "Superdupercharged",
+  "advancements.attraction.strike_multiple_lodestones.description": "Strike multiple Lodestones with one lightning strike",
+  "advancements.attraction.witness_opposites_attract.title": "Opposites Attract",
+  "advancements.attraction.witness_opposites_attract.description": "Have a Netherite Block attract an Iron Block",
+  "advancements.attraction.magnet_boost_elytra.title": "Where we're going we don't need Rockets",
+  "advancements.attraction.magnet_boost_elytra.description": "Use Magnetic Blocks to launch yourself to 88m/s while flying with an Elytra"
 }

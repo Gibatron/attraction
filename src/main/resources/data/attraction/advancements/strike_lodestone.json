@@ -1,0 +1,28 @@
+{
+  "parent": "attraction:witness_attraction",
+  "display": {
+    "icon": {
+      "item": "attraction:charged_lodestone"
+    },
+    "title": {
+      "translate": "advancements.attraction.strike_lodestone.title"
+    },
+    "description": {
+      "translate": "advancements.attraction.strike_lodestone.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "strike_lodestone": {
+      "trigger": "attraction:strike_lodestone"
+    }
+  },
+  "requirements": [
+    [
+      "strike_lodestone"
+    ]
+  ]
+}

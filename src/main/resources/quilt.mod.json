@@ -6,15 +6,15 @@
 		"version": "${version}",
 		"metadata": {
 			"name": "Attraction",
-			"description": "A short description of your mod.",
+			"description": "Adds magnetism, Lodestones and Netherite Blocks are now magnetic and attract other magnetic items, entities and even players wearing armor.",
 			"contributors": {
-				"MrTurtle": "Programming",
+				"MrTurtle": "Programming & Logo",
 				"Olibromide": "Art"
 			},
 			"contact": {
-				"homepage": "https://example.com/",
-				"issues": "https://github.com/QuiltMC/quilt-template-mod/issues",
-				"sources": "https://github.com/QuiltMC/quilt-template-mod"
+				"homepage": "https://modrinth.com/mod/attraction",
+				"issues": "https://github.com/Gibatron/attraction/issues",
+				"sources": "https://github.com/Gibatron/attraction"
 			},
 			"license": "MIT",
 			"icon": "assets/attraction/icon.png"
