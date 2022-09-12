@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:lodestone",
+    "minecraft:netherite_block",
+    "attraction:charged_lodestone"
+  ]
+}

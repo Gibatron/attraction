@@ -6,5 +6,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public class ModBlockTags {
-	public static final TagKey<Block> LODESTONE_BOOSTER = TagKey.of(Registry.BLOCK_KEY, new Identifier("attraction", "lodestone_booster"));
+	public static final TagKey<Block> BOOSTER = TagKey.of(Registry.BLOCK_KEY, new Identifier("attraction", "booster"));
+	public static final TagKey<Block> BOOSTABLE = TagKey.of(Registry.BLOCK_KEY, new Identifier("attraction", "boostable"));
+	public static final TagKey<Block> MAGNETIC = TagKey.of(Registry.BLOCK_KEY, new Identifier("attraction", "magnetic"));
 }

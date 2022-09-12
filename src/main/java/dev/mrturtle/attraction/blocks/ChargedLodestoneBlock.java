@@ -1,21 +1,23 @@
 package dev.mrturtle.attraction.blocks;
 
 import dev.mrturtle.attraction.Attraction;
-import dev.mrturtle.attraction.blocks.entity.ChargedLodestoneBlockEntity;
+import dev.mrturtle.attraction.advancement.ModCriteria;
 import net.minecraft.block.*;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityTicker;
-import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.random.RandomGenerator;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class ChargedLodestoneBlock extends BlockWithEntity {
+import java.util.List;
+
+public class ChargedLodestoneBlock extends Block {
 	public static final BooleanProperty POWERED = BooleanProperty.of("powered");
 	public static final BooleanProperty LIT = BooleanProperty.of("lit");
 
@@ -25,19 +27,17 @@ public class ChargedLodestoneBlock extends BlockWithEntity {
 	}
 
 	@Override
-	public BlockRenderType getRenderType(BlockState state) {
-		// With inheriting from BlockWithEntity this defaults to INVISIBLE, so we need to change that!
-		return BlockRenderType.MODEL;
-	}
-
-	@Override
-	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-		return new ChargedLodestoneBlockEntity(pos, state);
-	}
-
-	@Override
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-		return checkType(type, Attraction.CHARGED_LODESTONE_BLOCK_ENTITY, ChargedLodestoneBlockEntity::tick);
+	public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
+		if (oldState.isOf(Blocks.LODESTONE)) {
+			if (world.getBlockState(pos.down()).isOf(Blocks.LODESTONE)) {
+				world.setBlockState(pos.down(), Attraction.CHARGED_LODESTONE_BLOCK.getDefaultState().with(ChargedLodestoneBlock.LIT, true), Block.NOTIFY_ALL);
+				// Advancement trigger
+				List<ServerPlayerEntity> nearbyPlayers = world.getEntitiesByClass(ServerPlayerEntity.class, new Box(pos).expand(10, 10, 10), playerEntity -> true);
+				for (ServerPlayerEntity player : nearbyPlayers) {
+					ModCriteria.STRIKE_LODESTONE.trigger(player, 2);
+				}
+			}
+		}
 	}
 
 	@Override
@@ -71,6 +71,7 @@ public class ChargedLodestoneBlock extends BlockWithEntity {
 				} else {
 					world.setBlockState(pos, state.cycle(POWERED), Block.NOTIFY_LISTENERS);
 				}
+				world.playSound(null, pos, Attraction.CHARGED_LODESTONE_INVERT, SoundCategory.BLOCKS, 1.0F, 1.0F);
 			}
 		}
 	}
