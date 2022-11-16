@@ -2,6 +2,7 @@ package dev.mrturtle.attraction;
 
 import dev.mrturtle.attraction.advancement.ModCriteria;
 import dev.mrturtle.attraction.blocks.ChargedLodestoneBlock;
+import dev.mrturtle.attraction.compat.GravityAPICompat;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Material;
@@ -18,6 +19,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
 import org.quiltmc.loader.api.ModContainer;
+import org.quiltmc.loader.api.QuiltLoader;
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
 import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 import org.quiltmc.qsl.registry.attachment.api.RegistryEntryAttachment;
@@ -41,8 +43,13 @@ public class Attraction implements ModInitializer {
 
 	public static final RegistryEntryAttachment<Block, Double> MAGNETIC_BLOCK = RegistryEntryAttachment.doubleBuilder(Registry.BLOCK, new Identifier("attraction", "magnetic_block")).build();
 
+	public static boolean useGravityAPI = false;
+
 	@Override
 	public void onInitialize(ModContainer mod) {
+		if (QuiltLoader.isModLoaded("gravity_api")) {
+			useGravityAPI = true;
+		}
 		Registry.register(Registry.BLOCK, new Identifier("attraction", "charged_lodestone"), CHARGED_LODESTONE_BLOCK);
 		Registry.register(Registry.ITEM, new Identifier("attraction", "charged_lodestone"), new BlockItem(CHARGED_LODESTONE_BLOCK, new Item.Settings().group(ItemGroup.DECORATIONS)));
 		Registry.register(Registry.SOUND_EVENT, CHARGED_LODESTONE_INVERT_ID, CHARGED_LODESTONE_INVERT);
@@ -72,6 +79,9 @@ public class Attraction implements ModInitializer {
 		if (distance < 7 && (distance >= 1 || magnetStrength < 1)) {
 			Vec3d vec = center.subtract(entity.getPos());
 			vec = vec.normalize().multiply((magnetStrength * magneticValue * 0.01f) * (7 - distance));
+			if (useGravityAPI) {
+				vec = GravityAPICompat.checkForGravity(vec, entity);
+			}
 			entity.addVelocity(vec.x, vec.y, vec.z);
 			entity.velocityModified = true;
 			return true;
