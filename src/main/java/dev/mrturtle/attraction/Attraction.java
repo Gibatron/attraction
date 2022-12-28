@@ -3,13 +3,15 @@ package dev.mrturtle.attraction;
 import dev.mrturtle.attraction.advancement.ModCriteria;
 import dev.mrturtle.attraction.blocks.ChargedLodestoneBlock;
 import dev.mrturtle.attraction.compat.GravityAPICompat;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.Material;
 import net.minecraft.entity.Entity;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
+import net.minecraft.item.*;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.state.property.Properties;
@@ -17,7 +19,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.registry.Registry;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.loader.api.QuiltLoader;
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
@@ -39,9 +40,9 @@ public class Attraction implements ModInitializer {
 
 	public static final Identifier CHARGED_LODESTONE_INVERT_ID = new Identifier("attraction:charged_lodestone_invert");
 
-	public static SoundEvent CHARGED_LODESTONE_INVERT = new SoundEvent(CHARGED_LODESTONE_INVERT_ID);
+	public static SoundEvent CHARGED_LODESTONE_INVERT = SoundEvent.createVariableRangeEvent(CHARGED_LODESTONE_INVERT_ID);
 
-	public static final RegistryEntryAttachment<Block, Double> MAGNETIC_BLOCK = RegistryEntryAttachment.doubleBuilder(Registry.BLOCK, new Identifier("attraction", "magnetic_block")).build();
+	public static final RegistryEntryAttachment<Block, Double> MAGNETIC_BLOCK = RegistryEntryAttachment.doubleBuilder(Registries.BLOCK, new Identifier("attraction", "magnetic_block")).build();
 
 	public static boolean useGravityAPI = false;
 
@@ -50,10 +51,13 @@ public class Attraction implements ModInitializer {
 		if (QuiltLoader.isModLoaded("gravity_api")) {
 			useGravityAPI = true;
 		}
-		Registry.register(Registry.BLOCK, new Identifier("attraction", "charged_lodestone"), CHARGED_LODESTONE_BLOCK);
-		Registry.register(Registry.ITEM, new Identifier("attraction", "charged_lodestone"), new BlockItem(CHARGED_LODESTONE_BLOCK, new Item.Settings().group(ItemGroup.DECORATIONS)));
-		Registry.register(Registry.SOUND_EVENT, CHARGED_LODESTONE_INVERT_ID, CHARGED_LODESTONE_INVERT);
+		Registry.register(Registries.BLOCK, new Identifier("attraction", "charged_lodestone"), CHARGED_LODESTONE_BLOCK);
+		BlockItem lodestoneItem = new BlockItem(CHARGED_LODESTONE_BLOCK, new Item.Settings());
+		Registry.register(Registries.ITEM, new Identifier("attraction", "charged_lodestone"), lodestoneItem);
+		Registry.register(Registries.SOUND_EVENT, CHARGED_LODESTONE_INVERT_ID, CHARGED_LODESTONE_INVERT);
 		ModCriteria.register();
+		ItemGroupEvents.modifyEntriesEvent(ItemGroups.REDSTONE).register(entries -> entries.addItem(lodestoneItem));
+		ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> entries.addAfter(Blocks.LODESTONE, lodestoneItem));
 	}
 
 	public static boolean calculateMagnet(BlockPos block, BlockState state, Entity entity, float magneticValue) {

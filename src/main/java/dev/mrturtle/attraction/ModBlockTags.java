@@ -1,12 +1,12 @@
 package dev.mrturtle.attraction;
 
 import net.minecraft.block.Block;
-import net.minecraft.tag.TagKey;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 public class ModBlockTags {
-	public static final TagKey<Block> BOOSTER = TagKey.of(Registry.BLOCK_KEY, new Identifier("attraction", "booster"));
-	public static final TagKey<Block> BOOSTABLE = TagKey.of(Registry.BLOCK_KEY, new Identifier("attraction", "boostable"));
-	public static final TagKey<Block> MAGNETIC = TagKey.of(Registry.BLOCK_KEY, new Identifier("attraction", "magnetic"));
+	public static final TagKey<Block> BOOSTER = TagKey.of(Registries.BLOCK.getKey(), new Identifier("attraction", "booster"));
+	public static final TagKey<Block> BOOSTABLE = TagKey.of(Registries.BLOCK.getKey(), new Identifier("attraction", "boostable"));
+	public static final TagKey<Block> MAGNETIC = TagKey.of(Registries.BLOCK.getKey(), new Identifier("attraction", "magnetic"));
 }
