@@ -11,7 +11,7 @@ import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.random.RandomGenerator;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -46,7 +46,7 @@ public class ChargedLodestoneBlock extends Block {
 		builder.add(LIT);
 	}
 
-	public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, RandomGenerator random) {
+	public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
 		if (state.get(POWERED) && !world.isReceivingRedstonePower(pos)) {
 			world.setBlockState(pos, state.cycle(POWERED), Block.NOTIFY_LISTENERS);
 		}

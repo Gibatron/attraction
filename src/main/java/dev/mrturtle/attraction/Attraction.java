@@ -4,6 +4,8 @@ import dev.mrturtle.attraction.advancement.ModCriteria;
 import dev.mrturtle.attraction.blocks.ChargedLodestoneBlock;
 import dev.mrturtle.attraction.compat.GravityAPICompat;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -19,11 +21,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
-import org.quiltmc.loader.api.ModContainer;
-import org.quiltmc.loader.api.QuiltLoader;
-import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
-import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
-import org.quiltmc.qsl.registry.attachment.api.RegistryEntryAttachment;
+import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,19 +34,17 @@ public class Attraction implements ModInitializer {
 	// That way, it's clear which mod wrote info, warnings, and errors.
 	public static final Logger LOGGER = LoggerFactory.getLogger("Attraction");
 
-	public static final ChargedLodestoneBlock CHARGED_LODESTONE_BLOCK = new ChargedLodestoneBlock(QuiltBlockSettings.of(Material.METAL).luminance((state) -> state.get(Properties.LIT) ? 15 : 5).requiresTool().strength(3.5F).sounds(BlockSoundGroup.LODESTONE));
+	public static final ChargedLodestoneBlock CHARGED_LODESTONE_BLOCK = new ChargedLodestoneBlock(FabricBlockSettings.of(Material.METAL).luminance((state) -> state.get(Properties.LIT) ? 15 : 5).requiresTool().strength(3.5F).sounds(BlockSoundGroup.LODESTONE));
 
 	public static final Identifier CHARGED_LODESTONE_INVERT_ID = new Identifier("attraction:charged_lodestone_invert");
 
-	public static SoundEvent CHARGED_LODESTONE_INVERT = SoundEvent.createVariableRangeEvent(CHARGED_LODESTONE_INVERT_ID);
-
-	public static final RegistryEntryAttachment<Block, Double> MAGNETIC_BLOCK = RegistryEntryAttachment.doubleBuilder(Registries.BLOCK, new Identifier("attraction", "magnetic_block")).build();
+	public static SoundEvent CHARGED_LODESTONE_INVERT = SoundEvent.of(CHARGED_LODESTONE_INVERT_ID);
 
 	public static boolean useGravityAPI = false;
 
 	@Override
-	public void onInitialize(ModContainer mod) {
-		if (QuiltLoader.isModLoaded("gravity_api")) {
+	public void onInitialize() {
+		if (FabricLoader.getInstance().isModLoaded("gravity_api")) {
 			useGravityAPI = true;
 		}
 		Registry.register(Registries.BLOCK, new Identifier("attraction", "charged_lodestone"), CHARGED_LODESTONE_BLOCK);
@@ -56,7 +52,7 @@ public class Attraction implements ModInitializer {
 		Registry.register(Registries.ITEM, new Identifier("attraction", "charged_lodestone"), lodestoneItem);
 		Registry.register(Registries.SOUND_EVENT, CHARGED_LODESTONE_INVERT_ID, CHARGED_LODESTONE_INVERT);
 		ModCriteria.register();
-		ItemGroupEvents.modifyEntriesEvent(ItemGroups.REDSTONE).register(entries -> entries.addItem(lodestoneItem));
+		ItemGroupEvents.modifyEntriesEvent(ItemGroups.REDSTONE).register(entries -> entries.add(lodestoneItem));
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> entries.addAfter(Blocks.LODESTONE, lodestoneItem));
 	}
 
@@ -64,7 +60,9 @@ public class Attraction implements ModInitializer {
 		Vec3d center = Vec3d.ofCenter(block);
 		double distance = center.distanceTo(entity.getPos());
 		double magnetStrength = 1;
-		Optional<Double> baseValue = MAGNETIC_BLOCK.get(state.getBlock());
+		// Needs changed to config system
+		// Optional<Double> baseValue = MAGNETIC_BLOCK.get(state.getBlock());
+		Optional<Double> baseValue = Optional.empty();
 		if (baseValue.isPresent())
 			magnetStrength = baseValue.get();
 		if (state.isIn(ModBlockTags.BOOSTABLE)) {
