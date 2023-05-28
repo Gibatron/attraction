@@ -3,10 +3,10 @@ package dev.mrturtle.attraction;
 import dev.mrturtle.attraction.advancement.ModCriteria;
 import dev.mrturtle.attraction.blocks.ChargedLodestoneBlock;
 import dev.mrturtle.attraction.compat.GravityAPICompat;
+import dev.mrturtle.attraction.config.ConfigManager;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.Material;
@@ -25,8 +25,6 @@ import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Optional;
-
 public class Attraction implements ModInitializer {
 
 	// This logger is used to write text to the console and the log file.
@@ -44,6 +42,7 @@ public class Attraction implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		ConfigManager.loadConfig();
 		if (FabricLoader.getInstance().isModLoaded("gravity_api")) {
 			useGravityAPI = true;
 		}
@@ -60,17 +59,15 @@ public class Attraction implements ModInitializer {
 		Vec3d center = Vec3d.ofCenter(block);
 		double distance = center.distanceTo(entity.getPos());
 		double magnetStrength = 1;
-		// Needs changed to config system
-		// Optional<Double> baseValue = MAGNETIC_BLOCK.get(state.getBlock());
-		Optional<Double> baseValue = Optional.empty();
-		if (baseValue.isPresent())
-			magnetStrength = baseValue.get();
-		if (state.isIn(ModBlockTags.BOOSTABLE)) {
+		if (ConfigManager.config.isBlockMagnetic(state))
+			magnetStrength = ConfigManager.config.getBlockMagneticValue(state);
+		if (ConfigManager.config.isBlockBoostable(state)) {
 			Direction[] directions = {Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST, Direction.UP, Direction.DOWN};
 			int boosters = 0;
 			for (Direction direction : directions) {
-				if (entity.world.getBlockState(block.add(direction.getVector())).isIn(ModBlockTags.BOOSTER)) {
-					boosters += 1;
+				BlockState directionState = entity.world.getBlockState(block.add(direction.getVector()));
+				if (ConfigManager.config.isBlockBooster(directionState)) {
+					boosters += ConfigManager.config.getBlockBoostValue(directionState);
 				}
 			}
 			magnetStrength = magnetStrength + boosters * 0.5;

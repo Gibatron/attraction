@@ -1,12 +1,9 @@
 package dev.mrturtle.attraction.mixin;
 
-import dev.mrturtle.attraction.ModBlockTags;
-import dev.mrturtle.attraction.ModEntityTags;
-import dev.mrturtle.attraction.ModItemTags;
 import dev.mrturtle.attraction.advancement.ModCriteria;
+import dev.mrturtle.attraction.config.ConfigManager;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
@@ -32,9 +29,6 @@ public abstract class EntityMixin {
 	World world;
 
 	@Shadow
-	public abstract EntityType<?> getType();
-
-	@Shadow
 	private BlockPos blockPos;
 
 	@Shadow
@@ -48,7 +42,7 @@ public abstract class EntityMixin {
 				Iterable<BlockPos> blocks = BlockPos.iterate(blockPos.down(8).south(8).west(8), blockPos.up(8).north(8).east(8));
 				for (BlockPos block : blocks) {
 					BlockState state = world.getBlockState(block);
-					if (state.isIn(ModBlockTags.MAGNETIC)) {
+					if (ConfigManager.config.isBlockMagnetic(state)) {
 						Entity entity = (Entity) (Object) this;
 						boolean wasPulled = calculateMagnet(block, state, entity, magneticValue);
 						if (!wasPulled)
@@ -85,19 +79,21 @@ public abstract class EntityMixin {
 		if (entity instanceof LivingEntity) {
 			int count = 0;
 			for (ItemStack itemStack : entity.getArmorItems()) {
-				if (itemStack.isIn(ModItemTags.MAGNETIC))
-					count += 1;
+				if (ConfigManager.config.isItemMagnetic(itemStack))
+					count += ConfigManager.config.getItemMagneticValue(itemStack);
 			}
-			return count;
+			if (count > 0)
+				return count;
 		}
 		// Magnetic entity tag
-		if (getType().isIn(ModEntityTags.MAGNETIC)) {
-			return 1;
+		if (ConfigManager.config.isEntityMagnetic(entity)) {
+			return (float) ConfigManager.config.getEntityMagneticValue(entity);
 		}
 		// Magnetic item on ground
 		if (entity instanceof ItemEntity) {
-			if (((ItemEntity) entity).getStack().isIn(ModItemTags.MAGNETIC))
-				return 1;
+			ItemStack stack = ((ItemEntity) entity).getStack();
+			if (ConfigManager.config.isItemMagnetic(stack))
+				return (float) ConfigManager.config.getItemMagneticValue(stack);
 		}
 		return 0;
 	}
