@@ -1,6 +1,6 @@
 # Attraction
 
-Attraction is a Fabric mod for Minecraft 1.19.4 that makes Netherite Blocks and Lodestones magnetic.
+Attraction is a Fabric mod for Minecraft 1.20 that makes Netherite Blocks and Lodestones magnetic.
 
 You can download it on [Modrinth](https://modrinth.com/mod/attraction) or from [here](https://github.com/Gibatron/attraction/releases)
 
