@@ -25,12 +25,12 @@ public abstract class AbstractMinecartEntityMixin extends Entity {
 
 	@Inject(method = "tick", at = @At("HEAD"))
 	public void magnetTick(CallbackInfo ci) {
-		if (!this.world.isClient) {
+		if (!this.getWorld().isClient) {
 			if (ConfigManager.config.isEntityMagnetic(this)) {
 				BlockPos blockPos = this.getBlockPos();
 				Iterable<BlockPos> blocks = BlockPos.iterate(blockPos.down(8).south(8).west(8), blockPos.up(8).north(8).east(8));
 				for (BlockPos block : blocks) {
-					BlockState state = world.getBlockState(block);
+					BlockState state = getWorld().getBlockState(block);
 					if (ConfigManager.config.isBlockMagnetic(state)) {
 						boolean wasPulled = calculateMagnet(block, state, this, (float) ConfigManager.config.getEntityMagneticValue(this));
 						if (!wasPulled)

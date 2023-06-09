@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.predicate.BlockPredicate;
 import net.minecraft.predicate.entity.AdvancementEntityPredicateDeserializer;
 import net.minecraft.predicate.entity.AdvancementEntityPredicateSerializer;
-import net.minecraft.predicate.entity.EntityPredicate;
+import net.minecraft.predicate.entity.LootContextPredicate;
 import net.minecraft.predicate.item.ItemPredicate;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -23,7 +23,7 @@ public class ItemAttractedCriterion extends AbstractCriterion<ItemAttractedCrite
 	}
 
 	@Override
-	public Conditions conditionsFromJson(JsonObject jsonObject, EntityPredicate.Extended player, AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) {
+	public Conditions conditionsFromJson(JsonObject jsonObject, LootContextPredicate player, AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) {
 		ItemPredicate item = ItemPredicate.fromJson(jsonObject.get("item"));
 		BlockPredicate block = BlockPredicate.fromJson(jsonObject.get("block"));
 		return new Conditions(player, item, block);
@@ -36,7 +36,7 @@ public class ItemAttractedCriterion extends AbstractCriterion<ItemAttractedCrite
 	public static class Conditions extends AbstractCriterionConditions {
 		private final ItemPredicate item;
 		private final BlockPredicate block;
-		public Conditions(EntityPredicate.Extended player, ItemPredicate item, BlockPredicate block) {
+		public Conditions(LootContextPredicate player, ItemPredicate item, BlockPredicate block) {
 			super(ID, player);
 			this.item = item;
 			this.block = block;

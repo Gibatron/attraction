@@ -35,6 +35,7 @@ public abstract class LightningEntityMixin extends Entity {
 
 	@Inject(method = "tick", at = @At(value = "HEAD"))
 	private void strikeLodestone(CallbackInfo ci) {
+		World world = getWorld();
 		if (ambientTick == 2 && !world.isClient()) {
 			BlockPos blockPos = getAffectedBlockPos().down();
 			BlockState blockState = world.getBlockState(blockPos);

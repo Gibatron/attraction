@@ -5,7 +5,7 @@ import net.minecraft.advancement.criterion.AbstractCriterion;
 import net.minecraft.advancement.criterion.AbstractCriterionConditions;
 import net.minecraft.predicate.entity.AdvancementEntityPredicateDeserializer;
 import net.minecraft.predicate.entity.AdvancementEntityPredicateSerializer;
-import net.minecraft.predicate.entity.EntityPredicate;
+import net.minecraft.predicate.entity.LootContextPredicate;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
@@ -18,7 +18,7 @@ public class MagnetBoostElytraCriterion extends AbstractCriterion<MagnetBoostEly
 	}
 
 	@Override
-	public Conditions conditionsFromJson(JsonObject jsonObject, EntityPredicate.Extended player, AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) {
+	public Conditions conditionsFromJson(JsonObject jsonObject, LootContextPredicate player, AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) {
 		return new Conditions(player);
 	}
 
@@ -27,7 +27,7 @@ public class MagnetBoostElytraCriterion extends AbstractCriterion<MagnetBoostEly
 	}
 
 	public static class Conditions extends AbstractCriterionConditions {
-		public Conditions(EntityPredicate.Extended player) {
+		public Conditions(LootContextPredicate player) {
 			super(ID, player);
 		}
 

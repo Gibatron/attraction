@@ -6,7 +6,7 @@ import net.minecraft.advancement.criterion.AbstractCriterionConditions;
 import net.minecraft.predicate.NumberRange;
 import net.minecraft.predicate.entity.AdvancementEntityPredicateDeserializer;
 import net.minecraft.predicate.entity.AdvancementEntityPredicateSerializer;
-import net.minecraft.predicate.entity.EntityPredicate;
+import net.minecraft.predicate.entity.LootContextPredicate;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
@@ -19,7 +19,7 @@ public class StrikeLodestoneCriterion extends AbstractCriterion<StrikeLodestoneC
 	}
 
 	@Override
-	public Conditions conditionsFromJson(JsonObject jsonObject, EntityPredicate.Extended player, AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) {
+	public Conditions conditionsFromJson(JsonObject jsonObject, LootContextPredicate player, AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) {
 		NumberRange.IntRange count = NumberRange.IntRange.fromJson(jsonObject.get("count"));
 		return new Conditions(player, count);
 	}
@@ -30,7 +30,7 @@ public class StrikeLodestoneCriterion extends AbstractCriterion<StrikeLodestoneC
 
 	public static class Conditions extends AbstractCriterionConditions {
 		private final NumberRange.IntRange count;
-		public Conditions(EntityPredicate.Extended player, NumberRange.IntRange count) {
+		public Conditions(LootContextPredicate player, NumberRange.IntRange count) {
 			super(ID, player);
 			this.count = count;
 		}
