@@ -3,12 +3,14 @@ package dev.mrturtle.attraction.mixin;
 import dev.mrturtle.attraction.advancement.ModCriteria;
 import dev.mrturtle.attraction.config.ConfigManager;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
@@ -21,6 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 
+import static dev.mrturtle.attraction.Attraction.LOGGER;
 import static dev.mrturtle.attraction.Attraction.calculateMagnet;
 
 @Mixin(Entity.class)
@@ -38,7 +41,7 @@ public abstract class EntityMixin {
 	public void magnetTick(CallbackInfo ci) {
 		if (!world.isClient) {
 			float magneticValue = getMagneticValue();
-			if (magneticValue > 0) {
+			if (magneticValue != 0) {
 				Iterable<BlockPos> blocks = BlockPos.iterate(blockPos.down(8).south(8).west(8), blockPos.up(8).north(8).east(8));
 				for (BlockPos block : blocks) {
 					BlockState state = world.getBlockState(block);
@@ -77,13 +80,13 @@ public abstract class EntityMixin {
 		}
 		// Magnetic armor
 		if (entity instanceof LivingEntity) {
-			int count = 0;
+			float count = 0;
+
 			for (ItemStack itemStack : entity.getArmorItems()) {
 				if (ConfigManager.config.isItemMagnetic(itemStack))
 					count += ConfigManager.config.getItemMagneticValue(itemStack);
 			}
-			if (count > 0)
-				return count;
+			return count;
 		}
 		// Magnetic entity tag
 		if (ConfigManager.config.isEntityMagnetic(entity)) {
