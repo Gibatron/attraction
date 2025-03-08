@@ -27,6 +27,8 @@ import net.minecraft.util.math.Vec3d;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static java.lang.Math.abs;
+
 public class Attraction implements ModInitializer {
 
 	// This logger is used to write text to the console and the log file.
@@ -77,7 +79,7 @@ public class Attraction implements ModInitializer {
 		if (state.isOf(Attraction.CHARGED_LODESTONE_BLOCK))
 			if (state.get(ChargedLodestoneBlock.POWERED))
 				magnetStrength *= -1;
-		if (distance < 7 && (distance >= 1 || magnetStrength < 1)) {
+		if (distance < 7 && (distance >= 1 || magnetStrength < 1) && abs(magnetStrength) > ConfigManager.config.minMagnetStrength) {
 			Vec3d vec = center.subtract(entity.getPos());
 			vec = vec.normalize().multiply((magnetStrength * magneticValue * 0.01f) * (7 - distance));
 			if (useGravityAPI) {
