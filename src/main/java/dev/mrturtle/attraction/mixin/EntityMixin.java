@@ -21,7 +21,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 
-import static dev.mrturtle.attraction.Attraction.LOGGER;
 import static dev.mrturtle.attraction.Attraction.calculateMagnet;
 
 @Mixin(Entity.class)
