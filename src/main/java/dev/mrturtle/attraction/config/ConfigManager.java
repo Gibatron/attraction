@@ -56,6 +56,8 @@ public class ConfigManager {
 	public static Config getDefaultConfig() {
 		Config config = new Config();
 		// This feels like a terrible way to do this, please send help.
+		//// Minimum Magnet Strength
+		config.minMagnetStrength = 0.5;
 		//// Default blocks
 		config.magneticBlocks.put(Registries.BLOCK.getId(Blocks.LODESTONE).toString(), defaultStrength);
 		config.magneticBlocks.put("attraction:charged_lodestone", defaultStrength);

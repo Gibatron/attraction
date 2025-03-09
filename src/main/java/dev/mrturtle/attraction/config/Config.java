@@ -16,6 +16,7 @@ public class Config {
 	public HashMap<String, Double> magneticItems = new HashMap<>();
 	public HashMap<String, Double> magnetBoostable = new HashMap<>();
 	public HashMap<String, Double> magnetBoosters = new HashMap<>();
+	public double minMagnetStrength = 0.5;
 
 	public boolean isBlockMagnetic(BlockState state) {
 		return state.isIn(ModBlockTags.MAGNETIC) || ConfigManager.config.magneticBlocks.containsKey(getBlockKey(state));
